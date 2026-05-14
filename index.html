@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Adam & Nessy Wedding Seating</title>
+
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #f8f8f5;
+    color: #5f6f5a;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    font-size: 2.4rem;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid #cfd8cc;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.results {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.result-item {
+    background: white;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.result-item:hover {
+    background: #f1f5ef;
+}
+
+.result-box {
+    margin-top: 30px;
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.flower {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="flower">🌿</div>
+
+<h1>Welcome to the wedding of Adam and Nessy</h1>
+
+<p class="subtitle">
+Find your table assignment below
+</p>
+
+<input 
+type="text" 
+id="search"
+class="search-box"
+placeholder="Start typing your name..."
+autocomplete="off"
+/>
+
+<div class="results" id="results"></div>
+
+<div class="result-box" id="resultBox" style="display:none;">
+    <h2 id="guestName"></h2>
+    <p id="tableNumber"></p>
+</div>
+
+<div class="footer">
+Thank you for celebrating with us ♡
+</div>
+
+</div>
+
+<script>
+
+const guests = [
+    { name: "Nnedinma Chidebe, table: "1" },
+    { name: "Guest Chidebe", table: "Table 2" },
+    { name: "Camille Gleason", table: "Table 2" },
+    { name: "Jim Gleason", table: "Table 2" },
+    { name: "Alana Gleason", table: "Table 2" },
+    { name: "Beni Gleason", table: "Table 2" },
+    { name: "Mary Haley", table: "Table 2" },
+    { name: "Richard Hargrove", table: "Table 2" },
+    { name: "Travis Harris", table: "Table 2" },
+    { name: "Gina Salvatore", table: "Table 2" },
+    { name: "Ali Hennessey", table: "Table 2" },
+    { name: "Lindsay Herndon-Ortega", table: "Table 2" },
+    { name: "Melisa Indra Manurung", table: "Table 2" },
+    { name: "Binsar Manurung", table: "Table 2" },
+    { name: "Benedict Manurung", table: "Table 2" },
+    { name: "Terry Jackson", table: "Table 2" },
+    { name: "John Kipuw", table: "Table 2" },
+    { name: "Budiati Kipuw", table: "Table 2" },
+    { name: "Arand John Kipuw", table: "Table 2" },
+    { name: "Leona Legg", table: "Table 2" },
+    { name: "Ria Legg", table: "Table 2" },
+    { name: "Martini Morris", table: "Table 2" },
+    { name: "David Wonser", table: "Table 2" },
+    { name: "Alder Wonser", table: "Table 2" },
+    { name: "Laila Wonser", table: "Table 2" },
+    { name: "Wuryati Morris", table: "Table 2" },
+    { name: "Tom Oster", table: "Table 2" },
+    { name: "Janet Oster", table: "Table 2" },
+    { name: "Joy Phillips", table: "Table 2" },
+    { name: "Luke Cowell", table: "Table 2" },
+    { name: "Jon Pino", table: "Table 2" },
+    { name: "Marcia Pino", table: "Table 2" },
+    { name: "Elijah Pino", table: "Table 2" },
+    { name: "Jasmina Radoicic", table: "Table 3" },
+    { name: "Dragan Radoicic", table: "Table 3" },
+    { name: "Angelica Rodriguez", table: "Table 3" },
+    { name: "Joel Rodriguez", table: "Table 3" },
+    { name: "Asti Ruth West", table: "Table 3" },
+    { name: "Tony West", table: "Table 3" },
+    { name: "Damian West", table: "Table 3" },
+    { name: "Bayani West", table: "Table 3" },
+    { name: "Runy Safcik", table: "Table 3" },
+    { name: "Geoff Safcik", table: "Table 3" },
+    { name: "Nathaniel Safcik", table: "Table 3" },
+    { name: "Noah Safcik", table: "Table 3" },
+    { name: "Ethan Safcik", table: "Table 3" },
+    { name: "Penny Sandifer", table: "Table 3" },
+    { name: "Bonnie Stewart", table: "Table 3" },
+    { name: "Jason Stewart", table: "Table 3" },
+    { name: "Ken Barackman", table: "Table 3" },
+    { name: "Matt Stuckey", table: "Table 3" },
+    { name: "Kirsten Stuckey", table: "Table 3" },
+    { name: "Abby Stuckey", table: "Table 3" },
+    { name: "Ian Stuckey", table: "Table 3" },
+    { name: "Barbara Visentin", table: "Table 3" },
+    { name: "Chris Warner", table: "Table 3" },
+    { name: "Christine Chidester", table: "Table 3" },
+    { name: "Wayne Wasano", table: "Table 3" },
+    { name: "Sandra Wasano", table: "Table 3" },
+    { name: "Jane West", table: "Table 3" },
+    { name: "Kelly Winford", table: "Table 3" },
+    { name: "Joe Winford", table: "Table 3" },
+    { name: "Child Winford", table: "Table 3" },
+    { name: "Cindy Woo", table: "Table 3" },
+    { name: "Lan Tran", table: "Table 4" }
+];
+
+const searchInput = document.getElementById('search');
+const resultsDiv = document.getElementById('results');
+const resultBox = document.getElementById('resultBox');
+
+searchInput.addEventListener('input', function() {
+
+    const query = this.value.toLowerCase();
+
+    resultsDiv.innerHTML = '';
+
+    if (query.length < 1) {
+        resultBox.style.display = 'none';
+        return;
+    }
+
+    const matches = guests.filter(guest =>
+        guest.name.toLowerCase().includes(query)
+    );
+
+    matches.forEach(match => {
+
+        const div = document.createElement('div');
+        div.classList.add('result-item');
+
+        div.textContent = match.name;
+
+        div.onclick = () => {
+
+            document.getElementById('guestName').textContent =
+                `Welcome, ${match.name}!`;
+
+            document.getElementById('tableNumber').textContent =
+                `You are seated at ${match.table}.`;
+
+            resultBox.style.display = 'block';
+
+            resultsDiv.innerHTML = '';
+            searchInput.value = match.name;
+        };
+
+        resultsDiv.appendChild(div);
+    });
+
+});
+</script>
+
+</body>
+</html>
