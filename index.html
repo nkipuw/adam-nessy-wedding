@@ -96,9 +96,11 @@ type="text"
 id="search"
 class="search-box"
 placeholder="Start typing your name..."
-autocomplete="off"
+autocomplete="on"
 />
 
+<datalist id="guestSuggestions"></datalist>
+    
 <div class="results" id="results"></div>
 
 <div class="result-box" id="resultBox" style="display:none;">
@@ -115,7 +117,7 @@ Thank you for celebrating with us ♡
 <script>
 
 const guests = [
-    { name: "Nnedinma Chidebe, table: "1" },
+    { name: "Nnedinma Chidebe", table: "1" },
     { name: "Guest Chidebe", table: "Table 2" },
     { name: "Camille Gleason", table: "Table 2" },
     { name: "Jim Gleason", table: "Table 2" },
@@ -185,30 +187,67 @@ const guests = [
 const searchInput = document.getElementById('search');
 const resultsDiv = document.getElementById('results');
 const resultBox = document.getElementById('resultBox');
+const suggestionList = document.getElementById('guestSuggestions');
 
-searchInput.addEventListener('input', function() {
+function populateSuggestions() {
 
-    const query = this.value.toLowerCase();
+    suggestionList.innerHTML = '';
+
+    guests.forEach(guest => {
+
+        const option = document.createElement('option');
+
+        option.value = guest.name;
+
+        suggestionList.appendChild(option);
+    });
+}
+
+populateSuggestions();
+
+function searchGuest() {
+
+    const query = searchInput.value.trim().toLowerCase();
 
     resultsDiv.innerHTML = '';
 
-    if (query.length < 1) {
+    if (query.length === 0) {
         resultBox.style.display = 'none';
         return;
     }
 
-    const matches = guests.filter(guest =>
+    const exactMatch = guests.find(guest =>
+        guest.name.toLowerCase() === query
+    );
+
+    if (exactMatch) {
+
+        document.getElementById('guestName').textContent =
+            `Welcome, ${exactMatch.name}!`;
+
+        document.getElementById('tableNumber').textContent =
+            `You are seated at ${exactMatch.table}.`;
+
+        resultBox.style.display = 'block';
+
+        return;
+    }
+
+    const partialMatches = guests.filter(guest =>
         guest.name.toLowerCase().includes(query)
     );
 
-    matches.forEach(match => {
+    partialMatches.forEach(match => {
 
         const div = document.createElement('div');
+
         div.classList.add('result-item');
 
         div.textContent = match.name;
 
         div.onclick = () => {
+
+            searchInput.value = match.name;
 
             document.getElementById('guestName').textContent =
                 `Welcome, ${match.name}!`;
@@ -219,13 +258,22 @@ searchInput.addEventListener('input', function() {
             resultBox.style.display = 'block';
 
             resultsDiv.innerHTML = '';
-            searchInput.value = match.name;
         };
 
         resultsDiv.appendChild(div);
     });
 
-});
+    if (partialMatches.length === 0) {
+
+        resultBox.style.display = 'none';
+
+        resultsDiv.innerHTML =
+            '<div class="result-item">No guest found</div>';
+    }
+}
+
+searchInput.addEventListener('input', searchGuest);
+
 </script>
 
 </body>
