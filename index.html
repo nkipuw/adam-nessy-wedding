@@ -33,7 +33,7 @@ z-index: 1;
     
     max-width: 500px;
     margin: 40px auto;
-    padding: 40px 25px;
+    padding: 60px 30px 90px;
     text-align: center;
     background: rgba(255,255,255,0.85);
 
@@ -46,28 +46,32 @@ z-index: 1;
     overflow: hidden;
 }
 
+/* TOP LEFT FLORAL */
 .container::before {
 
     content: "";
 
     position: absolute;
 
-    top: 0;
-    left: 0;
+    top: -10px;
+    left: -10px;
 
-    width: 100px;
-    height: 100px;
+    width: 240px;
+    height: 240px;
 
     background-image: url('top-left.png');
 
     background-size: contain;
     background-repeat: no-repeat;
 
-    opacity: 0.16;
+    opacity: 0.14;
 
     pointer-events: none;
+
+    z-index: 1;
 }
 
+/* BOTTOM HORIZONTAL FLORAL */
 .container::after {
 
     content: "";
@@ -78,17 +82,17 @@ z-index: 1;
     left: 0;
 
     width: 100%;
-    height: 110px;
+    height: 140px;
 
-    background-image: url('bottom-right.png');
+    background-image: url('bottom-floral.png');
 
     background-position: bottom center;
 
-    background-size: cover;
+    background-size: contain;
 
     background-repeat: no-repeat;
 
-    opacity: 0.12;
+    opacity: 0.10;
 
     pointer-events: none;
 
@@ -253,14 +257,28 @@ h1 {
         font-size: 1.7rem;
     }
 
-    .container::before,
-    .container::after {
+/* MOBILE TOP FLORAL */
+.container::before {
 
-        width: 110px;
-        height: 110px;
+    width: 180px;
+    height: 180px;
 
-        opacity: 0.18;
-    }
+    top: -5px;
+    left: -5px;
+
+    opacity: 0.10;
+}
+
+/* MOBILE BOTTOM FLORAL */
+.container::after {
+
+    height: 120px;
+
+    bottom: 10px;
+
+    opacity: 0.08;
+
+    background-size: cover;
 }
 
 </style>
