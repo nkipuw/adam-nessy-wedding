@@ -256,40 +256,61 @@ h1 {
 @media screen and (max-width: 600px) {
 
     .container {
+
         margin: 20px;
+
         padding: 35px 20px;
     }
 
     h1 {
+
         font-size: 2.5rem;
     }
 
     .result-box h2 {
+
         font-size: 1.7rem;
     }
 
-/* MOBILE TOP FLORAL */
-.container::before {
+    /* MOBILE TOP FLORAL */
 
-    width: 180px;
-    height: 180px;
+    .container::before {
 
-    top: -5px;
-    left: -5px;
+        width: 180px;
+        height: 180px;
 
-    opacity: 0.10;
-}
+        top: -5px;
+        left: -5px;
 
-/* MOBILE BOTTOM FLORAL */
-.container::after {
+        opacity: 0.14;
+    }
 
-    height: 140px;
+    /* MOBILE BOTTOM FLORAL */
 
-    bottom: 0;
+    body::after {
 
-    background-size: cover;
+        height: 180px;
 
-    opacity: 0.08;
+        opacity: 0.18;
+
+        background-size: cover;
+    }
+
+    /* MOBILE NAME SIZE */
+
+    .couple-names {
+
+        font-size: 3.2rem;
+    }
+
+    /* MOBILE SUBTITLE */
+
+    .subtitle {
+
+        font-size: 1.25rem;
+
+        line-height: 1.4;
+    }
 }
 
 </style>
